@@ -49,15 +49,14 @@ int main(int argc, char *argv[]) {
 
         const int sourceRank = 1;
 
+        int messageLength = 1;
+        std::vector<int> receiveBuffer(messageLength);
+
         MPI_Status status;
     
-        MPI_Probe(1, tag, MPI_COMM_WORLD, &status);
+        MPI_Probe(sourceRank, tag, MPI_COMM_WORLD, &status);
 
-        int messageLength = 1;
-
-        MPI_Get_count(&status, MPI_DOUBLE, &messageLength);
-
-        std::vector<int> receiveBuffer(messageLength);
+        MPI_Get_count(&status, MPI_INT, &messageLength);
 
         // Receive the message. Will error with MPI_ERR_TRUNCATE if the buffer is too small for the incoming message
         MPI_Recv(receiveBuffer.data(), receiveBuffer.size(), MPI_INT,

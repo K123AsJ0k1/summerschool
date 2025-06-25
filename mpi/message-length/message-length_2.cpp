@@ -41,25 +41,27 @@ int main(int argc, char *argv[]) {
     }
 
     if (rank == 0) {
-        std::vector<int> receiveBuffer(10);
+        const int sourceRank = 1;
 
+        int messageLength = 1;
+        std::vector<int> receiveBuffer(messageLength);
+        
         // TODO: receive the full message sent from rank 1.
         // Use MPI_Probe and MPI_Get_count to figure out the number of integers in the message.
         // Store this count in 'messageLength', then reallocate 'receiveBuffer'
         // to correct size, and finally receive the message.
 
-        const int sourceRank = 1;
-
+        const int maxLength = 10;
+        receiveBuffer.resize(maxLength);
+       
         MPI_Status status;
-
+        
         // Receive the message. Will error with MPI_ERR_TRUNCATE if the buffer is too small for the incoming message
         MPI_Recv(receiveBuffer.data(), receiveBuffer.size(), MPI_INT,
-            sourceRank, tag, MPI_COMM_WORLD, status
+            sourceRank, tag, MPI_COMM_WORLD, &status
         );
 
-        int messageLength = 1;
-
-        MPI_Get_count(&status, MPI_DOUBLE, &messageLength);
+        MPI_Get_count(&status, MPI_INT, &messageLength);
 
         printf("Rank 0: Received %d integers from rank 1.\n", messageLength);
         // Print the received numbers
