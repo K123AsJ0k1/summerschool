@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     
         MPI_Probe(1, tag, MPI_COMM_WORLD, &status);
 
-        MPI_Get_count(status, MPI_DOUBLE, &messageLength);
+        MPI_Get_count(&status, MPI_DOUBLE, &messageLength);
 
         receiveBuffer.resize(messageLength);
 
