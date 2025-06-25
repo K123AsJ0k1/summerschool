@@ -18,6 +18,41 @@ sbatch --job-name=n04 --nodes=1 --ntasks-per-node=4 --gpus-per-node=4 job.sh
 sbatch --job-name=n16 --nodes=2 --ntasks-per-node=8 --gpus-per-node=8 job.sh
 ```
 
+1:
+- Iter = 9.507136
+- Cost = 9.507136
+- Comm = 0.004098
+- Comp = 9.312471
+- Speed = None
+- Effi = None
+2:
+- Iter = 4.992427
+- Cost = 9.98494
+- Comm = 0.118506
+- Comp = 4.732284
+- Speed = 1.90
+- Effi = 95 %
+4:
+- Iter = 2.821289 
+- Cost = 11.2815156
+- Comm = 0.286191
+- Comp = 2.449825
+- Speed = 3.36978
+- Effi = 84 %
+8:
+- Iter = 1.647323
+- Cost = 13.17858
+- Comm = 0.311473
+- Comp = 1.263423
+- Speed = 5.77126
+- Effi = 72 %
+16:
+- Iter = 1.214008
+- Cost = 19.42412
+- Comm = 0.468714
+- Comp = 0.681850
+- Speed = 7.83119
+- Effi = 49 %
 
 | GCDs | Runtime (s) | Resource cost (GCD-s) | Time spent in communication (s) | Time spent in computing (s) | Speedup | Parallel efficiency |
 | ---: | ----------: | --------------------: | ------------------------------: | --------------------------: | ------: | ------------------: |

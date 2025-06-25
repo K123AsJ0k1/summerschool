@@ -10,4 +10,4 @@
 # Enable GPU-aware MPI
 export MPICH_GPU_SUPPORT_ENABLED=1
 
-srun ./heat_hip
+srun heat-equation-3d/heat_hip
