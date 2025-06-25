@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 
   int mpi_tag = 1;
   if (rank == 1) {
-    MPI_Send(pi, 1, MPI_DOUBLE, 0, mpi_tag, MPI_COMM_WORLD);
+    MPI_Send(&pi, 1, MPI_DOUBLE, 0, mpi_tag, MPI_COMM_WORLD);
   }
 
   if (rank == 0) {
