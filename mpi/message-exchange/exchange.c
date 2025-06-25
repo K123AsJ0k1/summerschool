@@ -18,11 +18,11 @@ int main(int argc, char *argv[]) {
     }
 
     // Allocate buffers
-    int* message = (int *)malloc(sizeof(int) * arraysize);
-    int* receiveBuffer = (int *)malloc(sizeof(int) * arraysize);
+    int* message = (int *)malloc(sizeof(int) * msgsize);
+    int* receiveBuffer = (int *)malloc(sizeof(int) * msgsize);
 
     // Initialize message and receive buffer
-    for (int i = 0; i < arraysize; i++) {
+    for (int i = 0; i < msgsize; i++) {
         message[i] = rank;
         receiveBuffer[i] = -1;
     }
@@ -32,17 +32,19 @@ int main(int argc, char *argv[]) {
     // Send 'msgsize' integers from the array "message",
     // and receive the same number of integers into "receiveBuffer".
     // You may hardcode the message passing to happen between ranks 0 and 1.
-
+    int mpi_tag = 1;
     if (rank == 0) {
 
         // ... your code here ...
-
+        MPI_Send(message, msgsize, MPI_INT, 1, mpi_tag, MPI_COMM_WORLD);
+        MPI_Recv(receiveBuffer, msgsize, MPI_INT, 1, mpi_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         printf("Rank %i received %i elements, first %i\n", rank, msgsize, receiveBuffer[0]);
     }
     else if (rank == 1) {
 
         // .. your code here ...
-
+        MPI_Recv(receiveBuffer, msgsize, MPI_INT, 0, mpi_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Send(message, msgsize, MPI_INT, 0, mpi_tag, MPI_COMM_WORLD);
         printf("Rank %i received %i elements, first %i\n", rank, msgsize, receiveBuffer[0]);
     }
 
