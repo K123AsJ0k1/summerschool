@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 
         int messageLength = 1;
 
-        MPI_Get_count(status, MPI_DOUBLE, &messageLength);
+        MPI_Get_count(&status, MPI_DOUBLE, &messageLength);
 
         printf("Rank 0: Received %d integers from rank 1.\n", messageLength);
         // Print the received numbers
