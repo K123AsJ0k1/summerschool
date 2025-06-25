@@ -19,16 +19,16 @@ int main(int argc, char** argv)
   }
 
   int istart;
-  int istop
+  int istop;
 
   if (rank == 0) {
-    istart = 1
+    istart = 1;
     istop = n/2; 
   } 
 
   if (rank == 1) {
     istart = n/2 + 1;
-    istop = n
+    istop = n;
   }
 
   double pi = 0.0;
