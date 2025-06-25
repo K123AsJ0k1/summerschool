@@ -17,11 +17,11 @@ int main(int argc, char *argv[]) {
     }
     
     if (process_rank == (total_processes-1)) {
-        printf("I'm the last but not least");
+        printf("I'm the last but not least\n");
     }
 
     if (process_rank == 42) {
-        printf("I'm the Answer to the Ultimate Question, of Life, the Universe and Everything!");
+        printf("I'm the Answer to the Ultimate Question, of Life, the Universe and Everything!\n");
     }
 
     MPI_Finalize();
