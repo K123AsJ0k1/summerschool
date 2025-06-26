@@ -32,15 +32,23 @@ int main(int argc, char *argv[]) {
     MPI_Barrier(MPI_COMM_WORLD);
     double t0 = MPI_Wtime();
 
-    // TODO: Send messages
+    destination = rank+1;
+    if (rank == (ntasks - 1)) {
+        destination = MPI_PROC_NULL;
+    }
 
+    source = rank-1;
+    if (rank == 0) {
+        source = MPI_PROC_NULL;
+    }
+
+    MPI_Sendrecv(&message, numElements, MPI_INT, destination, rank, 
+                 &receiveBuffer, numElements, source, rank-1, 
+                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
     printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
            rank, numElements, rank + 1, destination
     );
-
-    // TODO: Receive messages
-
 
     printf("Receiver: %d. first element %d\n", rank, receiveBuffer[0]);
 
