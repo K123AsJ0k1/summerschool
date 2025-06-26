@@ -49,6 +49,4 @@ int main(int argc, char** argv)
     pi *= 4.0 / n;
     printf("Approximate pi=%18.16f (exact pi=%10.8f)\n", pi, M_PI);
   }
-
-  MPI_Finalize();
 }
