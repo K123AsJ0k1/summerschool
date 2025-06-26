@@ -6,16 +6,14 @@ constexpr int n = 840;
 
 int main(int argc, char** argv)
 {
-  printf("Computing approximation to pi with N=%d\n", n);
-
   int rank, ntasks;
   MPI_Init(&argc, &argv);
   MPI_Comm_size(MPI_COMM_WORLD, &ntasks);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-  if (ntasks < 2) {
-    printf("Please run with atleast 2 MPI processes\n");
-    MPI_Abort(MPI_COMM_WORLD, 1);
+  if (0 == rank) {
+    printf("Computing approximation to pi with N=%d\n", n);
+    printf("Using %d MPI processes\n", ntasks);
   }
 
   int chunksize = n / ntasks;
