@@ -10,7 +10,7 @@
 int main(int argc, char **argv)
 {
 
-    MPI_Init(&argc, &argv);
+    MPI_Init(&argc, &argv); 
     
     const int image_interval = 100;    // Image output interval
 
