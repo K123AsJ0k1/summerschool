@@ -3,7 +3,7 @@
 #include "matrix.hpp"
 #include <mpi.h>
 
-// Class for basic parallelization information
+// Class for basic parallelization information 
 struct ParallelData {
     int size;            // Number of MPI tasks
     int rank;

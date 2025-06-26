@@ -12,29 +12,29 @@ void exchange(Field& field, const ParallelData parallel)
     double* sbuf = field.temperature.data(1,0);
     double* rbuf = field.temperature.data(field.nx + 1, 0);
 
-    //MPI_Send(sbuf, field.ny + 2, MPI_DOUBLE,
-    //         parallel.nup, 11, MPI_COMM_WORLD);
+    MPI_Send(sbuf, field.ny + 2, MPI_DOUBLE,
+             parallel.nup, 11, MPI_COMM_WORLD);
    
-    //MPI_Recv(rbuf, field.ny + 2, MPI_DOUBLE,
-    //         parallel.ndown, 11, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(rbuf, field.ny + 2, MPI_DOUBLE,
+             parallel.ndown, 11, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-    MPI_Sendrecv(sbuf, field.ny + 2, MPI_DOUBLE, parallel.nup, 11, 
-                 rbuf, field.ny + 2, MPI_DOUBLE, parallel.ndown, 11,
-                 MPI_COMM_WORLD, MPI_STATUS_IGNORE)
+    //MPI_Sendrecv(sbuf, field.ny + 2, MPI_DOUBLE, parallel.nup, 11, 
+    //             rbuf, field.ny + 2, MPI_DOUBLE, parallel.ndown, 11,
+    //             MPI_COMM_WORLD, MPI_STATUS_IGNORE)
 
     // Send to down, receive from up
     sbuf = field.temperature.data(field.nx, 0);
     rbuf = field.temperature.data();
     
-    //MPI_Send(sbuf, field.ny + 2, MPI_DOUBLE,
-    //         parallel.ndown, 12, MPI_COMM_WORLD);
+    MPI_Send(sbuf, field.ny + 2, MPI_DOUBLE,
+             parallel.ndown, 12, MPI_COMM_WORLD);
 
-    //MPI_Recv(rbuf, field.ny + 2, MPI_DOUBLE,
-    //         parallel.nup, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(rbuf, field.ny + 2, MPI_DOUBLE,
+             parallel.nup, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-    MPI_Sendrecv(sbuf, field.ny + 2, MPI_DOUBLE, parallel.ndown, 12, 
-                 rbuf, field.ny + 2, MPI_DOUBLE, parallel.nup, 12,
-                 MPI_COMM_WORLD, MPI_STATUS_IGNORE)
+    //MPI_Sendrecv(sbuf, field.ny + 2, MPI_DOUBLE, parallel.ndown, 12, 
+    //             rbuf, field.ny + 2, MPI_DOUBLE, parallel.nup, 12,
+    //             MPI_COMM_WORLD, MPI_STATUS_IGNORE)
 } 
 
 // Update the temperature values using five-point stencil */
