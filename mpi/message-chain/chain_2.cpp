@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     int sendTag = rank + 1;
     int recvTag = rank;
     MPI_Sendrecv(message.data(), numElements, MPI_INT, destination, sendTag, 
-                 receiveBuffer.data(), numElements, source, recvTag, 
+                 receiveBuffer.data(), numElements, MPI_INT, source, recvTag, 
                  MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
     printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
