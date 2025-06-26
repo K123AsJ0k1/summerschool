@@ -25,25 +25,17 @@ int main(int argc, char *argv[]) {
     // TODO: Set source and destination ranks to form a message chain:
     //      rank1 -> rank2 -> rank3 -> ...
     // Treat boundaries with MPI_PROC_NULL.
-    int source = -1;
-    int destination = -1;
+    int source = rank - 1;
+    int destination = rank + 1;
 
     // Start measuring the time spent in communication
     MPI_Barrier(MPI_COMM_WORLD);
     double t0 = MPI_Wtime();
 
-    destination = rank+1;
-    if (rank == (ntasks - 1)) {
-        destination = MPI_PROC_NULL;
-    }
-
-    source = rank-1;
-    if (rank == 0) {
-        source = MPI_PROC_NULL;
-    }
-
-    MPI_Sendrecv(&message, numElements, MPI_INT, destination, rank, 
-                 &receiveBuffer, numElements, source, rank-1, 
+    int sendTag = rank + 1;
+    int recvTag = rank;
+    MPI_Sendrecv(message.data(), numElements, MPI_INT, destination, sendTag, 
+                 receiveBuffer.data(), numElements, source, recvTag, 
                  MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
     printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
