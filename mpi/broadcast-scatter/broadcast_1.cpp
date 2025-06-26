@@ -32,10 +32,10 @@ int main(int argc, char *argv[])
 
     if (rank == 0) {
         for (int i = 1; i < size; i++) {
-            MPI_Send(&buf, buf_size, MPI_INT,i,0, MPI_COMM_WORLD);
+            MPI_Send(buf.data(), buf_size, MPI_INT,i,0, MPI_COMM_WORLD);
         }
     } else {
-        MPI_Recv(&buf, buf_size, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(buf.data(), buf_size, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     /* End timing */
