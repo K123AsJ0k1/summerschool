@@ -26,7 +26,15 @@ int main(int argc, char *argv[]) {
     //      rank1 -> rank2 -> rank3 -> ...
     // Treat boundaries with MPI_PROC_NULL.
     int source = rank - 1;
-    int destination = rank + 1;
+    int destination = rank + 1; 
+
+    if (rank == 0) {
+        source = MPI_PROC_NULL;
+    }
+
+    if (rank >= (ntasks - 1)) {
+        destination = MPI_PROC_NULL;
+    }
 
     // Start measuring the time spent in communication
     MPI_Barrier(MPI_COMM_WORLD);
