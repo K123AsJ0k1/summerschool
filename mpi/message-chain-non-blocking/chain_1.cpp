@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
         receiveBuffer[i] = -1;
     }
 
-    MPI_Request requests[2]
+    MPI_Request requests[2];
     
     int source;
     int destination;
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     int recvTag = rank;
 
     MPI_Isend(message.data(), numElements, MPI_INT, destination, sendTag, 
-              MPI_COMM_WORLD, &requests[0])
+              MPI_COMM_WORLD, &requests[0]);
     MPI_Wait(&requests[0], MPI_STATUS_IGNORE);
     
     MPI_Irecv(receiveBuffer.data(), numElements, MPI_INT, source, recvTag, 

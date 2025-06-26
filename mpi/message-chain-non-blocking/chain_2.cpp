@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     int sendTag = rank + 1;
     int recvTag = rank;
     MPI_Isend(message.data(), numElements, MPI_INT, destination, sendTag, 
-              MPI_COMM_WORLD, &requests[0])
+              MPI_COMM_WORLD, &requests[0]);
     MPI_Irecv(receiveBuffer.data(), numElements, MPI_INT, source, recvTag, 
               MPI_COMM_WORLD, &requests[1]);
     MPI_Waitall(2, requests, MPI_STATUS_IGNORE);
