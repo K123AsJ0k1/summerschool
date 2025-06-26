@@ -42,7 +42,7 @@ int main(int argc, char** argv)
   if (rank == 0) {
     double pi = localpi;
     for (int j=1; j < ntasks; j++) {
-      MPI_Recv(&localpi, 1, MPI_DOUBLE, MPI_ANY_SOURCE, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&localpi, 1, MPI_DOUBLE, j, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       pi += localpi; 
     }
     pi *= 4.0 / n;
