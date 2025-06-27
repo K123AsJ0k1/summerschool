@@ -28,10 +28,10 @@ int main(int argc, char **argv)
 
     #pragma omp parallel
     {
-        #ifdef _OPENMP
-            #pragma omp master
-            num_threads = omp_get_num_threads();
-        #endif
+    #ifdef _OPENMP
+        #pragma omp master
+        num_threads = omp_get_num_threads();
+    #endif
         
         initialize(argc, argv, current, previous, nsteps, parallelization);
 
