@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <omp.h>
 
 #define NX 102400
 
@@ -13,14 +12,11 @@ int main(void)
         vecB[i] = vecA[i] * vecA[i];
     }
 
-#pragma omp parallel
-    {   
-        #pragma omp for
-        for (int i = 0; i < NX; i++) {
-            vecC[i] = vecA[i] + vecB[i];
-        }
+    #pragma omp parallel for default(shared)
+    for (int i = 0; i < NX; i++) {
+        vecC[i] = vecA[i] + vecB[i];
     }
-
+        
     double sum = 0.0;
     /* Compute the check value */
     for (int i = 0; i < NX; i++) {
