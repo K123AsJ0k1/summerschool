@@ -10,7 +10,7 @@ int main()
     {
         tid = omp_get_thread_num();
         #pragma omp single
-        nthreads = omp_get_num_threads()
+        nthreads = omp_get_num_threads();
         #pragma omp critical
         printf("Thread %d\n", tid);
     }
