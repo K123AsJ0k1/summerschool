@@ -19,7 +19,7 @@ int main(void)
 
     sum = 0.0;
     /* TODO: Parallelize computation */
-    #pragma omp parallel for shared(vecA, sum)
+    #pragma omp parallel for shared(default) private(i)
     for (i = 0; i < NX; i++) {
         sum += vecA[i];
     }
