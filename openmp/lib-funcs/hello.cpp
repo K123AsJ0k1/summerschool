@@ -3,15 +3,17 @@
 #include <unistd.h>
 int main()
 {
-    int omp_threads;
-    int omp_rank;
-    omp_threads = omp_get_num_threads();
-    printf("Running with %d!\n", omp_threads);
-#pragma omp parallel private(omp_rank)
+    int tid, nthreads;
+    
+    printf("Hello world!\n");
+    #pragma omp parallel private(tid) shared(nthreads)
     {
-        omp_rank = omp_get_thread_num();
-        sleep(1);
-        printf("Hello world! by thread %d\n", omp_rank);
+        tid = omp_get_thread_num();
+        #pragma omp single
+        nthreads = omp_get_num_threads()
+        #pragma omp critical
+        printf("Thread %d\n", tid);
     }
+    printf("Amount of threads %d\n", nthreads);
     return 0;
 }
