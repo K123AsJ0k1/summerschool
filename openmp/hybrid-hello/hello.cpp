@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     
     #pragma omp parallel private(thread_id)
     {
-        thread = omp_get_thread_num();
+        thread_id = omp_get_thread_num();
         printf("I'm thread %d in process %d\n", thread_id, rank);
     }
     
