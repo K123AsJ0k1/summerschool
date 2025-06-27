@@ -67,9 +67,11 @@ int main()
         #pragma omp single
         std::swap(unew, u);
         
-        #pragma omp master {
-            if (iter % 500 == 0)
+        #pragma omp master 
+        {
+            if (iter % 500 == 0) {
                 std::cout << "Iteration " << iter << " norm: " << norm << std::endl;
+            }
             iter++;   
         } 
 
