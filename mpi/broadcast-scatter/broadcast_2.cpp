@@ -27,9 +27,6 @@ int main(int argc, char *argv[])
     MPI_Barrier(MPI_COMM_WORLD);
     double t0 = MPI_Wtime();
 
-    /* Send everywhere */
-    // TODO: Implement the broadcast of the array buf
-
     MPI_Bcast(buf.data(), buf_size, MPI_INT, 0, MPI_COMM_WORLD);
 
     /* End timing */

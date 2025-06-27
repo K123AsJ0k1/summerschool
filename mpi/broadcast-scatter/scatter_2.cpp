@@ -11,35 +11,38 @@ void print_buffer(std::vector<int> &buffer);
 int main(int argc, char *argv[])
 {
     int size, rank, buf_size=12;
-    std::vector<int> buf(buf_size);
+    std::vector<int> sendbuf(buf_size);
+    std::vector<int> recvbuf(buf_size, -1);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     /* Initialize message buffer */
-    init_buffer(buf);
+    init_buffer(sendbuf);
 
     /* Print data that will be sent */
-    print_buffer(buf);
+    print_buffer(sendbuf);
 
     /* Start timing */
     MPI_Barrier(MPI_COMM_WORLD);
     double t0 = MPI_Wtime();
 
-    if (rank == 0) {
-        for (int i = 1; i < size; i++) {
-            MPI_Send(buf.data(), buf_size, MPI_INT,i,0, MPI_COMM_WORLD);
+    if (buf_size % size != 0) {
+        if (rank == 0) {
+            fprintf(stderr, "Buffer size not divisible by the number of tasks. This program will fail.\n");
         }
-    } else {
-        MPI_Recv(buf.data(), buf_size, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Abort(MPI_COMM_WORLD, -1);
     }
+
+    int block_size = buf_size/size;
+    MPI_Scatter(sendbuf.data(), block_size, MPI_INT, recvbuf.data(), block_size, MPI_INT, 0, MPI_COMM_WORLD);
 
     /* End timing */
     double t1 = MPI_Wtime();
 
     /* Print data that was received */
-    print_buffer(buf);
+    print_buffer(recvbuf);
     if (rank == 0) {
         printf("Time elapsed: %6.8f s\n", t1 - t0);
     }
