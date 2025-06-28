@@ -23,6 +23,8 @@ void single_writer(const std::vector<int>& localData, const char* filename) {
     
     // You can assume that 'localData' has same length in all MPI processes:
     const size_t numElementsPerRank = localData.size();
+
+    const size_t totalNumElements = ntasks * numElementsPerRank;
     
     std::vector<int> receiveBuffer;
     if (rank == 0) {
