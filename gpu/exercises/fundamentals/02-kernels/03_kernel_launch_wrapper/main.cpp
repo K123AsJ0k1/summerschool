@@ -27,11 +27,7 @@ int main(int argc, char **argv) {
     // TODO: Wrap this kernel launch with the kernel launch macro, then compile
     // and run the program with different arguments.
     //hello<<<num_blocks, num_threads>>>(num_blocks, num_threads);
-    launch_kernel(
-        hello, 
-        1, 1, 0, 0, 
-        1 ,1
-    );
+    launch_kernel(hello, 1, 1, 0, 0, 1 ,1);
 
     [[maybe_unused]] const auto result = hipDeviceSynchronize();
 
