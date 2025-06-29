@@ -100,7 +100,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
 
     const int max_block_threads = get_device_attribute(
         hipDeviceAttribute_t::hipDeviceAttributeMaxThreadsPerBlock);
-    const int block_threads = threads.x * threads.y * threads.z 
+    const int block_threads = threads.x * threads.y * threads.z;
     if (block_threads <= 0 || block_threads < max_block_threads) {
         std::fprintf(stderr,
                      "Number of threads per block is too large: %ld > %d, for kernel %s in %s on line %d", 
