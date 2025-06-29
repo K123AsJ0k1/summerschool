@@ -12,7 +12,7 @@ __global__ void fill(float *arr, float a, size_t num_values) {
     const size_t tid = threadIdx.x + blockIdx.x * blockDim.x;
     if (tid < num_values) 
     {
-        arr[i] = a;
+        arr[tid] = a;
     }
 }
 
@@ -39,7 +39,7 @@ int main() {
 
     // TODO: Free device memory
     // - hipFree
-    hipFree(d_arr)
+    hipFree(d_arr);
 
     printf("Some values copied from the GPU: %f, %f, %f, %f\n", h_arr[0],
            h_arr[1], h_arr[num_values - 2], h_arr[num_values - 1]);
