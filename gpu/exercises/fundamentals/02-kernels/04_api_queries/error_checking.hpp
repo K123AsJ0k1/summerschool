@@ -48,7 +48,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
         hipDeviceAttribute_t::hipDeviceAttributeMaxBlockDimX);
     if (threads.x <= 0 || max_threads_x < threads.x) {
         std::fprintf(stderr,
-                     "Thread x request is too large: %ld > %d, for kernel " 
+                     "Thread x request is too large: %d > %d, for kernel " 
                      "\"%s\" in %s on line %d\n",
                      threads.x, max_threads_x, kernel_name, file, line);
         exit(EXIT_FAILURE);
@@ -58,7 +58,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
         hipDeviceAttribute_t::hipDeviceAttributeMaxBlockDimY);
     if (threads.y <= 0 || max_threads_y < threads.y) {
         std::fprintf(stderr,
-                     "Thread y request is too large: %ld > %d, for kernel " 
+                     "Thread y request is too large: %d > %d, for kernel " 
                      "\"%s\" in %s on line %d\n", 
                      threads.y, max_threads_y, kernel_name, file, line);
         exit(EXIT_FAILURE);
@@ -68,7 +68,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
         hipDeviceAttribute_t::hipDeviceAttributeMaxBlockDimZ);
     if (threads.z <= 0 || max_threads_z < threads.z) {
         std::fprintf(stderr,
-                     "Thread z request is too large: %ld > %d, for kernel "
+                     "Thread z request is too large: %d > %d, for kernel "
                      "\"%s\" in %s on line %d\n",
                      threads.z, max_threads_z, kernel_name, file, line);
         exit(EXIT_FAILURE);
@@ -78,7 +78,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
         hipDeviceAttribute_t::hipDeviceAttributeMaxGridDimX);
     if (blocks.x <= 0 || max_grid_x < blocks.x) {
         std::fprintf(stderr,
-                     "Grid x request is too large: %ld > %d, for kernel "
+                     "Grid x request is too large: %d > %d, for kernel "
                      "\"%s\" in %s on line %d\n",
                      blocks.x, max_grid_x, kernel_name, file, line);
         exit(EXIT_FAILURE);
@@ -88,7 +88,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
         hipDeviceAttribute_t::hipDeviceAttributeMaxGridDimX);
     if (blocks.y <= 0 || max_grid_y < blocks.y) {
         std::fprintf(stderr,
-                     "Grid y request is too large: %ld > %d, for kernel "
+                     "Grid y request is too large: %d > %d, for kernel "
                      "\"%s\" in %s on line %d\n",
                      blocks.y, max_grid_y, kernel_name, file, line);
         exit(EXIT_FAILURE);
@@ -98,7 +98,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
         hipDeviceAttribute_t::hipDeviceAttributeMaxGridDimX);
     if (blocks.z <= 0 || max_grid_z < blocks.z) {
         std::fprintf(stderr,
-                     "Grid z request is too large: %ld > %d, for kernel "
+                     "Grid z request is too large: %d > %d, for kernel "
                      "\"%s\" in %s on line %d\n",
                      blocks.z, max_grid_z, kernel_name, file, line);
         exit(EXIT_FAILURE);
@@ -109,7 +109,7 @@ void launch_kernel(const char *kernel_name, const char *file, int32_t line,
     const int block_threads = threads.x * threads.y * threads.z;
     if (block_threads <= 0 || max_block_threads < block_threads) {
         std::fprintf(stderr,
-                     "Number of threads per block is too large: %ld > %d, for kernel "
+                     "Number of threads per block is too large: %d > %d, for kernel "
                      "\"%s\" in %s on line %d\n",
                      block_threads, max_block_threads, kernel_name, file, line);
         exit(EXIT_FAILURE);
