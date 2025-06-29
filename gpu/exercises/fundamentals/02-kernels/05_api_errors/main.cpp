@@ -26,19 +26,15 @@ int main(int argc, char **argv) {
     // HIP_ERRCHK(hipApiCall(args));
 
     int count = 0;
-    //auto result = hipGetDeviceCount(&count);
     HIP_ERRCHK(hipGetDeviceCount(&count));
 
     int device = 0;
     HIP_ERRCHK(hipGetDevice(&device));
-    //result = hipGetDevice(&device);
 
-    //result = hipSetDevice(2);
     HIP_ERRCHK(hipSetDevice(device));
 
-    void *ptr = nullptr;
+    float *ptr = nullptr;
     static constexpr size_t num_bytes = sizeof(float);
-    //result = hipMalloc(nullptr, 99999999999);
     HIP_ERRCHK(hipMalloc(ptr, num_bytes));
 
     //result = hipMemset(nullptr, 0, 8);
