@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     HIP_ERRCHK(hipMalloc(&ptr, num_bytes));
 
     //result = hipMemset(nullptr, 0, 8);
-    HIP_ERRCHK(hipMemset(&ptr, 0, num_bytes));
+    HIP_ERRCHK(hipMemset(ptr, 0, num_bytes));
 
     //result = hipFree(ptr);
     HIP_ERRCHK(hipFree(ptr));

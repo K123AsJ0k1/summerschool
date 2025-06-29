@@ -9,6 +9,11 @@ __global__ void fill(float *arr, float a, size_t num_values) {
     // Assume the array size is 'num_values'
     // Consult earlier exercises where we launched kernels and the lecture
     // slides for help
+    const size_t tid = threadIdx.x + blockIdx.x * blockDim.x;
+    if (tid < num_values) 
+    {
+        arr[i] = a;
+    }
 }
 
 int main() {
@@ -22,14 +27,15 @@ int main() {
     hipMalloc(&d_arr, num_bytes);
 
     // TODO: Define grid dimensions + launch the device kernel
-    int threads = dim3(1024, 1, 1);
-    int blocks = dim3(977, 1, 1);
+    int threads = 1024;
+    int blocks = num_values / threads;
+    blocks += blocks * threads < num_values ? 1 : 0;
     LAUNCH_KERNEL(fill, blocks, threads, 0, 0, d_arr, a, num_values);
 
     float *h_arr = static_cast<float *>(std::malloc(num_bytes));
     // TODO: Copy results back to CPU
     // - hipMemcpy
-    hipMemcpy(d_arr, h_arr, num_bytes, hipMemcpyDefault);
+    hipMemcpy(h_arr, d_arr, num_bytes, hipMemcpyDefault);
 
     // TODO: Free device memory
     // - hipFree
