@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     //result = hipGetDevice(&device);
 
     //result = hipSetDevice(2);
-    HIP_ERRCHK(hipSetDevice(&device));
+    HIP_ERRCHK(hipSetDevice(device));
 
     void *ptr = nullptr;
     //result = hipMalloc(nullptr, 99999999999);
