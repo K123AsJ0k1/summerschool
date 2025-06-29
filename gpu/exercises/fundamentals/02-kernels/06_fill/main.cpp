@@ -24,7 +24,7 @@ int main() {
     float *d_arr = nullptr;
     // TODO: Allocate memory on the GPU
     // - hipMalloc
-    hipMalloc(&d_arr, num_bytes);
+    HIP_ERRCHK(hipMalloc(&d_arr, num_bytes));
 
     // TODO: Define grid dimensions + launch the device kernel
     int threads = 1024;
@@ -35,11 +35,11 @@ int main() {
     float *h_arr = static_cast<float *>(std::malloc(num_bytes));
     // TODO: Copy results back to CPU
     // - hipMemcpy
-    hipMemcpy(h_arr, d_arr, num_bytes, hipMemcpyDefault);
+    HIP_ERRCHK(hipMemcpy(h_arr, d_arr, num_bytes, hipMemcpyDefault));
 
     // TODO: Free device memory
     // - hipFree
-    hipFree(d_arr);
+    HIP_ERRCHK(hipFree(d_arr));
 
     printf("Some values copied from the GPU: %f, %f, %f, %f\n", h_arr[0],
            h_arr[1], h_arr[num_values - 2], h_arr[num_values - 1]);
