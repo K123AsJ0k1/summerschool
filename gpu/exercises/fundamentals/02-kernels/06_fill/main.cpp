@@ -23,15 +23,17 @@ int main() {
 
     // TODO: Define grid dimensions + launch the device kernel
     int threads = dim3(1024, 1, 1);
-    int blocks = dim3(1, 1, 1);
+    int blocks = dim3(977, 1, 1);
     LAUNCH_KERNEL(fill, blocks, threads, 0, 0, d_arr, a, num_values);
 
     float *h_arr = static_cast<float *>(std::malloc(num_bytes));
     // TODO: Copy results back to CPU
     // - hipMemcpy
+    hipMemcpy(d_arr, h_arr, num_bytes, hipMemcpyDefault);
 
     // TODO: Free device memory
     // - hipFree
+    hipFree(d_arr)
 
     printf("Some values copied from the GPU: %f, %f, %f, %f\n", h_arr[0],
            h_arr[1], h_arr[num_values - 2], h_arr[num_values - 1]);

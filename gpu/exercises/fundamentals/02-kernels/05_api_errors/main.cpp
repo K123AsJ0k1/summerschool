@@ -37,11 +37,12 @@ int main(int argc, char **argv) {
     HIP_ERRCHK(hipSetDevice(device));
 
     void *ptr = nullptr;
+    static constexpr size_t num_bytes = sizeof(float);
     //result = hipMalloc(nullptr, 99999999999);
-    HIP_ERRCHK(hipMalloc(nullptr, 99999999999));
+    HIP_ERRCHK(hipMalloc(ptr, num_bytes));
 
     //result = hipMemset(nullptr, 0, 8);
-    HIP_ERRCHK(hipMemset(nullptr, 0, 8));
+    HIP_ERRCHK(hipMemset(ptr, 0, num_bytes));
 
     //result = hipFree(ptr);
     HIP_ERRCHK(hipFree(ptr));
