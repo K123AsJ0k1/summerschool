@@ -19,10 +19,11 @@ int main() {
     float *d_arr = nullptr;
     // TODO: Allocate memory on the GPU
     // - hipMalloc
+    hipMalloc(&d_arr, num_bytes);
 
     // TODO: Define grid dimensions + launch the device kernel
-    int threads = 0;
-    int blocks = 0;
+    int threads = dim3(1024, 1, 1);
+    int blocks = dim3(1, 1, 1);
     LAUNCH_KERNEL(fill, blocks, threads, 0, 0, d_arr, a, num_values);
 
     float *h_arr = static_cast<float *>(std::malloc(num_bytes));
