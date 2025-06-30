@@ -95,7 +95,7 @@ int main() {
   HIP_ERRCHK(hipEventSynchronize(end_c));
   for (int i = 0; i < 20; ++i) printf("%f ", c[i]);
   printf("\n");
-  HIP_ERRCHK(hipEventElapsedTime(&t_kernel_b_ms, start_b, stop_b));
+  HIP_ERRCHK(hipEventElapsedTime(&t_kernel_b_ms, start_b, end_b));
   printf("kernel_b time: %f us\n", 1000*t_kernel_b_ms);
 
   // Free device and host memory allocations
