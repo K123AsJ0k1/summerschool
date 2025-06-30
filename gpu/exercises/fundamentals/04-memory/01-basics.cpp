@@ -45,14 +45,13 @@ int main() {
 
   float *a;
 
-  hipMallocManaged((void**)&a, N_bytes);
+  HIP_ERRCHK(hipMallocManaged((void**) &a, N_bytes));
   memset(a, 0, N_bytes);
 
   kernel<<<gridsize, blocksize>>>(a, N);
   HIP_ERRCHK(hipGetLastError());
-  hipStreamSynchronize(0);  
+  HIP_ERRCHK(hipStreamSynchronize(0));  
 
   printf("error: %f\n", max_error(a, N));
-
-  hipFree(a);
+  HIP_ERRCHK(hipFree(a));
 }
