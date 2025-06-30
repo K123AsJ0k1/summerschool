@@ -45,17 +45,14 @@ int main() {
 
   float *a;
 
-  // TODO: allocate hip managed memory for pointer a
-
+  hipMallocManaged((void**)&a, N_bytes);
   memset(a, 0, N_bytes);
 
   kernel<<<gridsize, blocksize>>>(a, N);
   HIP_ERRCHK(hipGetLastError());
-  
-  // TODO: Synchronize
+  hipStreamSynchronize(0);  
 
   printf("error: %f\n", max_error(a, N));
 
-
-  // TODO: Free memory
+  hipFree(a);
 }
