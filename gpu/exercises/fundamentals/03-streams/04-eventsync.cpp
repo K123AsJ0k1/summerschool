@@ -49,7 +49,7 @@ int main() {
     &end_b,
     &start_c,
     &end_c
-  }
+  };
 
   for (int i = 0; i < 6; ++i) HIP_ERRCHK(hipEventCreate(all_events[i]));
   
