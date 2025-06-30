@@ -36,9 +36,9 @@ int main() {
   hipStream_t stream_b; 
   hipStream_t stream_c; 
 
-  hipStreamCreate(&stream_a);
-  hipStreamCreate(&stream_b);
-  hipStreamCreate(&stream_c);
+  HIP_ERRCHK(hipStreamCreate(&stream_a));
+  HIP_ERRCHK(hipStreamCreate(&stream_b));
+  HIP_ERRCHK(hipStreamCreate(&stream_c));
 
   // Device allocations
   HIP_ERRCHK(hipMalloc((void**)&d_a, N_bytes));
