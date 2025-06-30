@@ -55,12 +55,12 @@ int main() {
   HIP_ERRCHK(hipGetLastError());
   HIP_ERRCHK(hipMemcpyAsync(a, d_a, N_bytes, hipMemcpyDeviceToHost, stream_a));
 
-  HIP_ERRCHK(hipMemcpyAsync(d_b b, N_bytes, hipMemcpyHostToDevice, stream_b));
+  HIP_ERRCHK(hipMemcpyAsync(d_b, b, N_bytes, hipMemcpyHostToDevice, stream_b));
   kernel_b<<<gridsize, blocksize,0,stream_b>>>(d_b, N);
   HIP_ERRCHK(hipGetLastError());
   HIP_ERRCHK(hipMemcpyAsync(b, d_b, N_bytes, hipMemcpyDeviceToHost, stream_b));
 
-  HIP_ERRCHK(hipMemcpyAsync(d_c c, N_bytes, hipMemcpyHostToDevice, stream_c));
+  HIP_ERRCHK(hipMemcpyAsync(d_c, c, N_bytes, hipMemcpyHostToDevice, stream_c));
   kernel_c<<<gridsize, blocksize,0,stream_c>>>(d_c, N);
   HIP_ERRCHK(hipGetLastError());
   HIP_ERRCHK(hipMemcpyAsync(c, d_c, N_bytes, hipMemcpyDeviceToHost, stream_c));
