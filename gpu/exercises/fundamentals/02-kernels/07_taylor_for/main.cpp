@@ -67,8 +67,10 @@ __global__ void taylor_for_strided(float *x, float *y, size_t num_values,
     // TODO: Fill in this kernel
     // Check the lecture slides for HIP kernels for an example on how to do a
     // strided for loop
+    const int tid = threadIdx.x + blockIdx.x * blockDim.x;
+    const int stride = blockDim.x * gridDim.x;
 
-    for (size_t i = ???; /*TODO: fill me in*/) {
+    for (size_t i = tid; i < n; i += stride) {
         y[i] = taylor(x[i], num_iters);
     }
 }
