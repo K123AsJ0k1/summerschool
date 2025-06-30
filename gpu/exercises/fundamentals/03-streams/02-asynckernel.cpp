@@ -47,7 +47,7 @@ int main() {
   hipStream_t stream[3];
 
   for (int i = 0; i < 3; i++) {
-    hipStreamCreate(&stream[i]);
+    HIP_ERRCHK(hipStreamCreate(&stream[i]));
   }
 
   HIP_ERRCHK(hipMemcpyAsync(d_a, a, N_bytes, hipMemcpyHostToDevice, stream[0]));
