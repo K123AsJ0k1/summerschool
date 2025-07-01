@@ -31,7 +31,7 @@ void ShowDevice(queue &q) {
   auto max_compute_units = device.get_info<info::device::max_compute_units>();
   std::cout << "\t\t\t\tMax Compute Units: " << max_compute_units << "\n\n";
 }
-
+ 
 
 int main(int argc, char *argv[]) 
 {

@@ -64,18 +64,19 @@ void GPUtoGPUviaHost(int rank, double *hA, double *dA, int N, double &timer)
     double start, stop;
     start = MPI_Wtime();
 
-    // TODO: Implement a GPU-to-GPU ping-pong that communicates via the host,
-    //       but uses the GPU to increment the vector elements. Copy data from
-    //       device to host (and back) and use normal MPI communication on the
-    //       host. Use the HIP kernel add_kernel() to increment values before
-    //       sending them back to rank 0.
     if (rank == 0) {
-        // TODO: Copy vector to host and send it to rank 1
-        // TODO: Receive vector from rank 1 and copy it to the device
+        hipMemcpy(hA, dA, sizeof(double) * N, hipMemcpyDeviceToHost);
+        MPI_Send(hA, N, MPI_DOUBLE, 1, 11, MPI_COMM_WORLD);
+        MPI_Recv(hA, N, MPI_DOUBLE, 1, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        hipMemcpy(dA, hA, sizeof(double) * N, hipMemcpyHostToDevice);
     } else if (rank == 1) {
-        // TODO: Receive vector from rank 0 and copy it to the device
-        // TODO: Launch kernel to increment values on the GPU
-        // TODO: Copy vector to host and send it to rank 0
+        MPI_Recv(hA, N, MPI_DOUBLE, 0, 11, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        hipMemcpy(dA, hA, sizeof(double) * N, hipMemcpyHostToDevice);
+        int blocksize = 128;
+        int gridsize = (N + blocksize - 1) / blocksize;
+        add_kernel<<<gridsize,blocksize>>>(dA, N);
+        hipMemcpy(hA, dA, sizeof(double) * N, hipMemcpyDeviceToHost);
+        MPI_Send(hA, N, MPI_DOUBLE, 0, 12, MPI_COMM_WORLD);
     }
 
     stop = MPI_Wtime();
@@ -89,15 +90,17 @@ void GPUtoGPUdirect(int rank, double *dA, int N, double &timer)
     double start, stop;
     start = MPI_Wtime();
 
-    // TODO: Implement a GPU-to-GPU ping-pong that communicates directly
-    //       from GPU memory using HIP-aware MPI.
     if (rank == 0) {
-        // TODO: Send vector to rank 1
-        // TODO: Receive vector from rank 1
+        MPI_Send(dA, N, MPI_DOUBLE, 1, 11, MPI_COMM_WORLD);
+        MPI_Recv(dA, N, MPI_DOUBLE, 1, 12, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     } else if (rank == 1) {
-        // TODO: Receive vector from rank 0
-        // TODO: Launch kernel to increment values on the GPU
-        // TODO: Send vector to rank 0
+        int blocksize = 128;
+        int gridsize = (N + blocksize - 1) / blocksize;
+
+        MPI_Recv(dA, N, MPI_DOUBLE, 0, 11, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        add_kernel<<<gridsize, blocksize>>> (dA, N);
+        hipStreamSynchronize(0);
+        MPI_Send(dA, N, MPI_DOUBLE, 0, 12, MPI_COMM_WORLD);
     }
 
     stop = MPI_Wtime();
