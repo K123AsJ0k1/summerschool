@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     for (int i = 0; i < 2; ++i) {
         hipSetDevice(i);
         hipMalloc((void**)&dA[i], sizeof(double) * dec[i].len);
-        hipMalloc((void**)&db[i], sizeof(double) * dec[i].len);
+        hipMalloc((void**)&dB[i], sizeof(double) * dec[i].len);
         hipMalloc((void**)&dC[i], sizeof(double) * dec[i].len);
         hipStreamCreate(&(strm[i]));
     }
@@ -85,23 +85,41 @@ int main(int argc, char *argv[])
        the execution is serialized because the memory copies block the
        execution of the host process. */
     for (int i = 0; i < 2; ++i) {
-        // TODO: Set active device
-        // TODO: Copy data from host to device asynchronously (hA[dec[i].start] -> dA[i], hB[dec[i].start] -> dB[i])
-        // TODO: Launch 'vector_add()' kernel to calculate dC = dA + dB
-        // TODO: Copy data from device to host (dC[i] -> hC[dec[0].start])
+        hipSetDevice(i);
+        hipMemcpyAsync(dA[i], (void *)&(hA[dec[i].start]),
+                       sizeof(double) * dec[i].len,
+                       hipMemcpyHostToDevice, strm[i]);
+        hipMemcpyAsync(dB[i], (void *)&(hB[dec[i].start]),
+                       sizeof(double) * dec[i].len,
+                       hipMemcpyHostToDevice, strm[i]);
+        
+        dim3 grid, threads;
+        grid.x = (dec[i].len + ThreadsInBlock - 1) / ThreadsInBlock;
+        threads.x = ThreadsInBlock;
+
+        vector_add<<<grid, threads, 0, strm[i]>>>(dC[i], dA[i], dB[i], dec[i].len);
+
+        hipMemcpyAsync((void *)&(hC[dec[i].start]), dC[i], sizeof(double) * dec[i].len, hipMemcpyDeviceToHost, strm[i]);
+
     }
 
     // Synchronize and destroy the streams
     for (int i = 0; i < 2; ++i) {
-        // TODO: Add synchronization calls and destroy streams
+        hipSetDevice(i);
+        hipStreamSynchronize(strm[i]);
+        hipStreamDestroy(strm[i]);
     }
 
+    hipSetDevice(0);
+    hipEventRecord(stop);
     // Stop timing
-    // TODO: Add here the timing event stop calls
-
+    
     // Free device memory
     for (int i = 0; i < 2; ++i) {
-        // TODO: Deallocate device memory
+        hipSetDevice(i);
+        hipFree((void*)dA[i]);
+        hipFree((void*)dB[i]);
+        hipFree((void*)dC[i]);
     }
 
     // Check results
