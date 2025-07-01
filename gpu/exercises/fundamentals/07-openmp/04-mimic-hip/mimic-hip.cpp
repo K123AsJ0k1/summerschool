@@ -19,16 +19,15 @@ int main() {
 
 #pragma omp target enter data map(to: a[:N], b[:N]) map(alloc: c[:N])
 
-// TODO: translate this hip function to equivalent OpenMP region
-/*
- __global__ void sum_vecs(float* a, float* b, float* c, size_t n) {
-    const size_t tid = threadIdx.x + blockIdx.x * blockDim.x;
-    const size_t stride = blockDim.x * gridDim.x;
+#pragma omp target teams parallel
+  {
+    const int tid = omp_get_team_num() * omp_get_num_threads() + omp_get_thread_num();
+    const int stride = omp_get_num_teams() * omp_get_num_threads();
 
-    for (size_t k = tid; k < n; k += stride) 
-      c[k] = a[k] +  b[k];
-}
-*/
+    for (size_t k = tid; k < N; k += stride) {
+      c[k] = a[k] + b[k];
+    }
+  }
 
 #pragma omp target update from(c[:N])
 
