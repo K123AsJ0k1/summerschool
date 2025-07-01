@@ -32,7 +32,17 @@ int main(int argc, char *argv[])
     hipStream_t strm[2];
     Decomp dec[2];
 
-    // TODO: Check that we have two HIP devices available
+    hipGetDeviceCount(&devicecount);
+    switch (devicecount) {
+    case 0:
+        printf("Could not find any HIP devices!\n");
+        exit(EXIT_FAILURE);
+    case 1:
+        printf("Found one HIP device, this program requires two\n");
+        exit(EXIT_FAILURE);
+    default:
+        printf("Found %d GPU devices, using GPUs 0 and 1!\n\n", devicecount);
+    }
 
     // Create timing events
     hipSetDevice(0);
@@ -40,8 +50,9 @@ int main(int argc, char *argv[])
     hipEventCreate(&stop);
 
     // Allocate host memory
-    // TODO: Allocate enough pinned host memory for hA, hB, and hC
-    //       to store N doubles each
+    hipHostMalloc((void**)&hA, sizeof(double) * N);
+    hipHostMalloc((void**)&hB, sizeof(double) * N);
+    hipHostMalloc((void**)&hC, sizeof(double) * N);
 
     // Initialize host memory
     for(int i = 0; i < N; ++i) {
@@ -57,9 +68,11 @@ int main(int argc, char *argv[])
 
     // Allocate memory for the devices and per device streams
     for (int i = 0; i < 2; ++i) {
-        // TODO: Allocate enough device memory for dA[i], dB[i], dC[i]
-        //       to store dec[i].len doubles
-        // TODO: Create a stream for each device
+        hipSetDevice(i);
+        hipMalloc((void**)&dA[i], sizeof(double) * dec[i].len);
+        hipMalloc((void**)&db[i], sizeof(double) * dec[i].len);
+        hipMalloc((void**)&dC[i], sizeof(double) * dec[i].len);
+        hipStreamCreate(&(strm[i]));
     }
 
     // Start timing

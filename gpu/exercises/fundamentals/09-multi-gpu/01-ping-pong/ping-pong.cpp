@@ -105,7 +105,7 @@ void GPUtoGPUdirect(int rank, double *dA, int N, double &timer)
 
     stop = MPI_Wtime();
     timer = stop - start;
-}
+} 
 
 
 int main(int argc, char *argv[])
